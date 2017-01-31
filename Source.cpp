@@ -7,9 +7,15 @@
 #endif
 using namespace std;
 bool isOpen = false;
-
 //Open file dialog
 
+void changeVolume()
+{
+	INPUT ip = { 0 };
+	ip.type = INPUT_KEYBOARD;
+	ip.ki.wVk = VK_VOLUME_MUTE;
+	SendInput(1, &ip, sizeof(INPUT));
+}
 
 int main()
 {
@@ -20,7 +26,8 @@ int main()
 		cout << "1 - Open CD" << endl;
 		cout << "2 - Close CD" << endl;
 		cout << "3 - Change desktop wallpaper" << endl;
-		cout << "4 - Exit" << endl;
+		cout << "4 - Turn off sound" << endl;
+		cout << "5 - Exit" << endl;
 		cin >> choice;
 		if (choice == 1)
 		{
@@ -54,19 +61,28 @@ int main()
 			ofn.lpstrTitle = "Select your background";
 			if (GetOpenFileNameA(&ofn))
 			{
+				SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filename, SPIF_SENDCHANGE);
 				std::cout << "Your desktop wallpaper has been changed!" << endl;
 			}
-			SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filename, SPIF_SENDCHANGE);
-			
-			
+	
 		}
 		if (choice == 4)
+		{
+			changeVolume();
+		}
+		if (choice == 5)
 		{
 			cout << "Exiting the program" << endl;
 			Sleep(1000);
 			break;
 		}
+		if (choice == 10)
+		{
+		
+		}
 	}
 
 	return 0;
 }
+
+
